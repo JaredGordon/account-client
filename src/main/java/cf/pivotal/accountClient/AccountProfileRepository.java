@@ -15,42 +15,41 @@
  */
 package cf.pivotal.accountClient;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
 
 @Repository
 public interface AccountProfileRepository {
 
     @RequestLine("GET /profiles/?userId={userId}&passwd={passwd}")
-    public List<Accountprofile> findByUseridAndPasswd(
+    List<Accountprofile> findByUseridAndPasswd(
             @Param(value = "userId") String userId,
             @Param(value = "passwd") String passwd);
 
     @RequestLine("GET /profiles/?userId={userId}")
-    public List<Accountprofile> findByUserid(
+    List<Accountprofile> findByUserid(
             @Param(value = "userId") String userId);
 
     @RequestLine("GET /profiles/?authToken={authtoken}")
-    public List<Accountprofile> findByAuthtoken(
+    List<Accountprofile> findByAuthtoken(
             @Param(value = "authtoken") String authtoken);
 
     @RequestLine("GET /profiles/{id}")
-    public Accountprofile findOne(@Param(value = "id") Long id);
+    Accountprofile findOne(@Param(value = "id") Long id);
 
     @RequestLine("GET /profiles/{id}/accounts")
-    public List<Account> findAccounts(@Param(value = "id") Long id);
+    List<Account> findAccounts(@Param(value = "id") Long id);
 
     @RequestLine("POST /profiles/")
     @Headers("Content-Type: application/json")
-    public Accountprofile save(@RequestBody Accountprofile profile);
+    Accountprofile save(@RequestBody Accountprofile profile);
 
     @RequestLine("DELETE /profiles/")
     @Headers("Content-Type: application/json")
-    public Accountprofile delete(@RequestBody Accountprofile profile);
+    Accountprofile delete(@RequestBody Accountprofile profile);
 }

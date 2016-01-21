@@ -1,7 +1,5 @@
 package cf.pivotal.accountClient;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,55 +8,70 @@ import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Date;
+
+import static org.junit.Assert.assertNotNull;
+
 @WebIntegrationTest(value = "server.port=9873")
 @ActiveProfiles("test")
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { Application.class })
+@SpringApplicationConfiguration(classes = {Application.class})
 public class AccountControllerTest {
 
-	@Autowired
-	AccountController accountController;
+    @Autowired
+    AccountController accountController;
 
-	@Autowired
-	AccountProfileController accountProfileController;
+    @Autowired
+    AccountProfileController accountProfileController;
 
-	@Test
-	public void testFind() {
-		Account obj = accountController.findAccount(new Long(2));
-		assertNotNull("Should find a result.", obj);
+    @Test
+    public void testFind() {
+        Account obj = accountController.findAccount(1L);
+        assertNotNull("Should find a result.", obj);
 
-		assertNotNull(obj.getAccountid());
-		assertNotNull(obj.getBalance());
-		assertNotNull(obj.getCreationdate());
-		assertNotNull(obj.getLogincount());
-		assertNotNull(obj.getLogoutcount());
-		assertNotNull(obj.getOpenbalance());
-		assertNotNull(obj.getVersion());
-	}
+        assertNotNull(obj.getAccountid());
+        assertNotNull(obj.getBalance());
+        assertNotNull(obj.getCreationdate());
+        assertNotNull(obj.getLogincount());
+        assertNotNull(obj.getLogoutcount());
+        assertNotNull(obj.getOpenbalance());
+        assertNotNull(obj.getVersion());
+    }
 
-	@Test
-	public void testFindByProfile() {
-		Accountprofile ap = accountProfileController
-				.findAccountProfile(new Long(2));
-		assertNotNull(ap);
+    @Test
+    public void testFindByProfile() {
+        Accountprofile ap = accountProfileController
+                .findAccountProfile(1L);
+        assertNotNull(ap);
 
-		Account obj = accountController.findByProfile(ap);
-		assertNotNull("Should find a result.", obj);
-	}
+        Account obj = accountController.findByProfile(ap);
+        assertNotNull("Should find a result.", obj);
+    }
 
-	@Test
-	public void testSaveAndDelete() {
-		Accountprofile ap = accountProfileController
-				.findAccountProfile(new Long(2));
-		assertNotNull(ap);
+    @Test
+    public void testSaveAndDelete() {
+        Accountprofile ap = accountProfileController
+                .findAccountProfile(1L);
+        assertNotNull(ap);
 
-		Account a = new Account();
-		a.setAccountprofile(ap);
-		a = accountController.saveAccount(a);
-		assertNotNull(a);
-		Long id = a.getAccountid();
-		assertNotNull(id);
-		
-		accountController.deleteAccount(a);
-	}
+        Account a = new Account();
+        Date now = new Date();
+        a.setCreationdate(now);
+        ap.addAccount(a);
+
+        ap = accountProfileController.saveAccountProfile(ap);
+        assertNotNull(ap);
+        ap = accountProfileController.findAccountProfile(ap.getProfileid());
+        Account a2 = null;
+        for (Account ac : ap.getAccounts()) {
+            if (now.equals(ac.getCreationdate())) {
+                a2 = ac;
+            }
+        }
+        assertNotNull(a2);
+        Long id = a2.getAccountid();
+        assertNotNull(id);
+
+//        accountController.deleteAccount(a2);
+    }
 }

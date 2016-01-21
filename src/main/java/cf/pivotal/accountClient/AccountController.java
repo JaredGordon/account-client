@@ -15,8 +15,6 @@
  */
 package cf.pivotal.accountClient;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +25,7 @@ public class AccountController implements AccountService {
     AccountRepository accountRepository;
 
     @Autowired
-    AccountProfileRepository accountProfileRepository;
+    AccountProfileService accountProfileService;
 
     public void deleteAccount(Account account) {
         accountRepository.delete(account);
@@ -38,16 +36,23 @@ public class AccountController implements AccountService {
     }
 
     public Account saveAccount(Account account) {
-        accountProfileRepository.save(account.getAccountprofile());
-        return accountRepository.save(account);
+        Accountprofile ap = accountProfileService.findAccountProfile(account.getAccountprofile().getProfileid());
+        if (ap.getAccounts() == null || ap.getAccounts().size() < 1) {
+            ap.addAccount(account);
+        } else {
+            ap.getAccounts().remove(0);
+            ap.getAccounts().add(account);
+        }
+        ap = accountProfileService.saveAccountProfile(ap);
+        return ap.getAccounts().get(0);
     }
 
     @Override
     public Account findByProfile(Accountprofile accountprofile) {
-        List<Account> l = accountProfileRepository.findAccounts(accountprofile
+        Accountprofile ap = accountProfileService.findAccountProfile(accountprofile
                 .getProfileid());
-        if (l != null && l.size() > 0) {
-            return l.get(0);
+        if (ap != null && ap.getAccounts() != null && ap.getAccounts().size() > 0) {
+            return ap.getAccounts().get(0);
         }
         return null;
     }

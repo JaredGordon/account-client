@@ -15,24 +15,24 @@
  */
 package cf.pivotal.accountClient;
 
-import org.springframework.stereotype.Repository;
-
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Repository
 public interface AccountRepository {
 
-	@RequestLine("GET /accounts/{id}")
-	Account findOne(@Param(value = "id") Long id);
+    @RequestLine("GET /accounts/{id}")
+    Account findOne(@Param(value = "id") Long id);
 
-	@RequestLine("DELETE /accounts/")
-	@Headers("Content-Type: application/json")
-	void delete(Account account);
+    @RequestLine("DELETE /accounts/")
+    @Headers("Content-Type: application/json")
+    void delete(@RequestBody Account account);
 
-	@RequestLine("POST /accounts/")
-	@Headers("Content-Type: application/json")
-	Account save(Account account);
+    @RequestLine("POST /accounts/")
+    @Headers("Content-Type: application/json")
+    Account save(@RequestBody Account account);
 
 }

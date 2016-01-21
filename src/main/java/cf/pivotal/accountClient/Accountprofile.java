@@ -15,21 +15,21 @@
  */
 package cf.pivotal.accountClient;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-
 public class Accountprofile implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private Long profileid;
+    private Long profileid;
 
-	public Long getProfileid() {
+    public Long getProfileid() {
         return this.profileid;
     }
 
-	public void setProfileid(Long id) {
+    public void setProfileid(Long id) {
         this.profileid = id;
     }
 
@@ -47,77 +47,96 @@ public class Accountprofile implements Serializable {
     private String creditcard;
 
     private String fullname;
-	
-	
+
+
     private String authtoken;
 
-	public String getAuthtoken() {
-		return authtoken;
-	}
+    public String getAuthtoken() {
+        return authtoken;
+    }
 
-	public void setAuthtoken(String authtoken) {
-		this.authtoken = authtoken;
-	}
+    public void setAuthtoken(String authtoken) {
+        this.authtoken = authtoken;
+    }
 
-	public List<Account> getAccounts() {
+    public List<Account> getAccounts() {
         return accounts;
     }
 
-	public void setAccounts(List<Account> accounts) {
+    public void setAccounts(List<Account> accounts) {
         this.accounts = accounts;
     }
 
-	public String getAddress() {
+    public String getAddress() {
         return address;
     }
 
-	public void setAddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
-	public String getPasswd() {
+    public String getPasswd() {
         return passwd;
     }
 
-	public void setPasswd(String passwd) {
+    public void setPasswd(String passwd) {
         this.passwd = passwd;
     }
 
-	public String getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-	public void setUserid(String userid) {
+    public void setUserid(String userid) {
         this.userid = userid;
     }
 
-	public String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-	public void setEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
-	public String getCreditcard() {
+    public String getCreditcard() {
         return creditcard;
     }
 
-	public void setCreditcard(String creditcard) {
+    public void setCreditcard(String creditcard) {
         this.creditcard = creditcard;
     }
 
-	public String getFullname() {
+    public String getFullname() {
         return fullname;
     }
 
-	public void setFullname(String fullname) {
+    public void setFullname(String fullname) {
         this.fullname = fullname;
     }
-	
-	@Override
-	public String toString() {
-		return "Accountprofile [profileid=" + profileid + ", address=" + address + ", passwd=" + passwd + ", userid="
-				+ userid + ", email=" + email + ", creditcard=" + creditcard + ", fullname=" + fullname + "]";
-	}
+
+    public void addAccount(Account account) {
+        if (getAccounts() == null || getAccounts().size() < 1) {
+            setAccounts(new ArrayList<Account>());
+        }
+        account.setAccountprofile(this);
+        getAccounts().add(account);
+    }
+
+    public int hashCode() {
+        if (getProfileid() == null) {
+            return -1;
+        }
+        return getProfileid().intValue();
+    }
+
+    public boolean equals(Object o) {
+        return o != null && o instanceof Accountprofile && o.hashCode() == this.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Accountprofile [profileid=" + profileid + ", address=" + address + ", passwd=" + passwd + ", userid="
+                + userid + ", email=" + email + ", creditcard=" + creditcard + ", fullname=" + fullname + "]";
+    }
 }

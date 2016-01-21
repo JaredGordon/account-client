@@ -15,110 +15,125 @@
  */
 package cf.pivotal.accountClient;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-
 public class Account implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@NotNull
-	private Accountprofile accountprofile;
+    @NotNull
+    private Accountprofile accountprofile;
 
-	private Date creationdate;
+    private Date creationdate;
 
-	private BigDecimal openbalance;
+    private BigDecimal openbalance;
 
-	@NotNull
-	private Integer logoutcount = new Integer(0);
+    @NotNull
+    private Integer logoutcount = 0;
 
-	private BigDecimal balance;
+    private BigDecimal balance;
 
-	private Date lastlogin;
+    private Date lastlogin;
 
-	@NotNull
-	private Integer logincount = new Integer(0);;
+    @NotNull
+    private Integer logincount = 0;
 
     private int version = 0;
-	public int getVersion() {
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public int getVersion() {
         return version;
     }
-	
-	public Accountprofile getAccountprofile() {
-		return accountprofile;
-	}
 
-	public void setAccountprofile(Accountprofile a) {
-		this.accountprofile = a;
-	}
+    public Accountprofile getAccountprofile() {
+        return accountprofile;
+    }
 
-	public Date getCreationdate() {
-		return creationdate;
-	}
+    public void setAccountprofile(Accountprofile a) {
+        this.accountprofile = a;
+    }
 
-	public void setCreationdate(Date creationdate) {
-		this.creationdate = creationdate;
-	}
+    public Date getCreationdate() {
+        return creationdate;
+    }
 
-	public BigDecimal getOpenbalance() {
-		return openbalance;
-	}
+    public void setCreationdate(Date creationdate) {
+        this.creationdate = creationdate;
+    }
 
-	public void setOpenbalance(BigDecimal openbalance) {
-		this.openbalance = openbalance;
-	}
+    public BigDecimal getOpenbalance() {
+        return openbalance;
+    }
 
-	public Integer getLogoutcount() {
-		return logoutcount;
-	}
+    public void setOpenbalance(BigDecimal openbalance) {
+        this.openbalance = openbalance;
+    }
 
-	public void setLogoutcount(Integer logoutcount) {
-		this.logoutcount = logoutcount;
-	}
+    public Integer getLogoutcount() {
+        return logoutcount;
+    }
 
-	public BigDecimal getBalance() {
-		return balance;
-	}
+    public void setLogoutcount(Integer logoutcount) {
+        this.logoutcount = logoutcount;
+    }
 
-	public void setBalance(BigDecimal balance) {
-		this.balance = balance;
-	}
+    public BigDecimal getBalance() {
+        return balance;
+    }
 
-	public Date getLastlogin() {
-		return lastlogin;
-	}
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
 
-	public void setLastlogin(Date lastlogin) {
-		this.lastlogin = lastlogin;
-	}
+    public Date getLastlogin() {
+        return lastlogin;
+    }
 
-	public Integer getLogincount() {
-		return logincount;
-	}
+    public void setLastlogin(Date lastlogin) {
+        this.lastlogin = lastlogin;
+    }
 
-	public void setLogincount(Integer logincount) {
-		this.logincount = logincount;
-	}
+    public Integer getLogincount() {
+        return logincount;
+    }
 
-	private Long accountid;
+    public void setLogincount(Integer logincount) {
+        this.logincount = logincount;
+    }
 
-	public Long getAccountid() {
-		return this.accountid;
-	}
+    private Long accountid;
 
-	public void setAccountid(Long id) {
-		this.accountid = id;
-	}
+    public Long getAccountid() {
+        return this.accountid;
+    }
 
-	@Override
-	public String toString() {
-		return "Account [creationdate=" + creationdate + ", openbalance="
-				+ openbalance + ", logoutcount=" + logoutcount + ", balance="
-				+ balance + ", lastlogin=" + lastlogin + ", logincount="
-				+ logincount + ", accountid=" + accountid + "]";
-	}
+    public void setAccountid(Long id) {
+        this.accountid = id;
+    }
+
+    public int hashCode() {
+        if (getAccountid() == null) {
+            return -1;
+        }
+        return getAccountid().intValue();
+    }
+
+    public boolean equals(Object o) {
+        return o != null && o instanceof Account && o.hashCode() == this.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Account [creationdate=" + creationdate + ", openbalance="
+                + openbalance + ", logoutcount=" + logoutcount + ", balance="
+                + balance + ", lastlogin=" + lastlogin + ", logincount="
+                + logincount + ", accountid=" + accountid + "]";
+    }
 
 }

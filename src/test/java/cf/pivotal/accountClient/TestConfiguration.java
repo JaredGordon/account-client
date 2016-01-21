@@ -1,9 +1,8 @@
 package cf.pivotal.accountClient;
 
+import feign.Feign;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import feign.Feign;
 
 @Configuration
 public class TestConfiguration {

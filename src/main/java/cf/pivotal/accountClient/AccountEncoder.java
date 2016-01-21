@@ -1,5 +1,10 @@
 package cf.pivotal.accountClient;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import feign.RequestTemplate;
+import feign.gson.GsonEncoder;
+
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -7,12 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import feign.RequestTemplate;
-import feign.gson.GsonEncoder;
 
 public class AccountEncoder extends GsonEncoder {
 
@@ -51,7 +50,7 @@ public class AccountEncoder extends GsonEncoder {
         m.put("email", ap.getEmail());
         m.put("fullName", ap.getFullname());
         m.put("passwd", ap.getPasswd());
-        m.put("id", ap.getProfileid());
+        m.put("accountProfileId", ap.getProfileid());
         m.put("userId", ap.getUserid());
 
         if (ap.getAccounts() != null && ap.getAccounts().size() > 0 && processAccounts) {
@@ -67,7 +66,7 @@ public class AccountEncoder extends GsonEncoder {
 
     private Object processAccount(Account a, boolean processProfile) {
         Map<String, Object> m = new HashMap<String, Object>();
-        m.put("id", a.getAccountid());
+        m.put("accountId", a.getAccountid());
         m.put("balance", a.getBalance());
         if (a.getCreationdate() != null) {
             m.put("creationDate", DATE_FORMAT.format(a.getCreationdate()));

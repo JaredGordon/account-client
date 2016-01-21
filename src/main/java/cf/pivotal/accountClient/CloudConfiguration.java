@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Profile;
 @EnableAutoConfiguration
 @EnableEurekaClient
 @EnableHystrixDashboard
-@Profile({ "cloud" })
+@Profile({"cloud"})
 public class CloudConfiguration {
 
 }

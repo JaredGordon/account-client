@@ -1,10 +1,5 @@
 package cf.pivotal.accountClient;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+
+import static org.junit.Assert.*;
 
 @WebIntegrationTest(value = "server.port=9873")
 @ActiveProfiles("test")
@@ -31,7 +28,7 @@ public class AccountProfileControllerTest {
     @Test
     public void testFind() {
         Accountprofile obj = accountProfileController
-                .findAccountProfile(new Long(2));
+                .findAccountProfile(1L);
         assertNotNull("Should find a result.", obj);
 
         assertNotNull(obj.getAccounts());
@@ -42,10 +39,10 @@ public class AccountProfileControllerTest {
         assertNotNull(obj.getEmail());
         assertNotNull(obj.getFullname());
         assertNotNull(obj.getPasswd());
-        assertEquals(new Long(2), obj.getProfileid());
+        assertEquals(new Long(1), obj.getProfileid());
         assertNotNull(obj.getUserid());
 
-        obj = accountProfileController.findAccountProfile(new Long(12345));
+        obj = accountProfileController.findAccountProfile(12345L);
         assertNull(obj);
     }
 
@@ -83,9 +80,9 @@ public class AccountProfileControllerTest {
     }
 
     @Test
-    public void testSaveProfileAndDelete() {
+    public void testSaveAccountAndDelete() {
         Accountprofile ap = new Accountprofile();
-        ap.setUserid("deleteMe:" + System.currentTimeMillis());
+        ap.setUserid("deleteMe2:" + System.currentTimeMillis());
         ap.setAddress("address");
         ap.setAuthtoken("authtoken");
         ap.setCreditcard("creditcard");
@@ -102,44 +99,15 @@ public class AccountProfileControllerTest {
 
         Account a = new Account();
         a.setAccountprofile(ap);
-        a.setBalance(new BigDecimal(123));
-        accountController.saveAccount(a);
-
-        //		accountProfileController.deletelAccountProfile(ap);
-//
-//		ap = accountProfileController.findAccountProfile(id);
-//		assertNull(ap);
-    }
-
-    @Test
-    public void testSaveAccountAndDelete() {
-        Accountprofile ap = new Accountprofile();
-        ap.setUserid("deleteMe:" + System.currentTimeMillis());
-        ap.setAddress("address");
-        ap.setAuthtoken("authtoken");
-        ap.setCreditcard("creditcard");
-        ap.setEmail("email");
-        ap.setFullname("fullname");
-        ap.setPasswd("passwd");
-
-        ap = accountProfileController.saveAccountProfile(ap);
-        assertNotNull(ap);
-//
-//        Long id = ap.getProfileid();
-//        ap = accountProfileController.findAccountProfile(id);
-//        assertNotNull(ap);
-
-        Account a = new Account();
-        a.setAccountprofile(ap);
         ap.setAccounts(new ArrayList<Account>());
         ap.getAccounts().add(a);
         a.setBalance(new BigDecimal(123));
         accountController.saveAccount(a);
 
-        //		accountProfileController.deletelAccountProfile(ap);
+//        accountProfileController.deletelAccountProfile(ap);
 //
-//		ap = accountProfileController.findAccountProfile(id);
-//		assertNull(ap);
+//        ap = accountProfileController.findAccountProfile(id);
+//        assertNull(ap);
     }
 
 }
