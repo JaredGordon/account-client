@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class AccountProfileController implements AccountProfileService {
     @Autowired
-    AccountProfileRepository accountProfileRepository;
+    private AccountProfileRepository accountProfileRepository;
 
     @Override
     public void deletelAccountProfile(Accountprofile accountProfile) {
